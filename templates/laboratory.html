@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	<style>
+		.main {
+			width: 100%;
+			padding: 10;
+		}
+
+		.main tr:first-child {
+			text-align: justify;
+			padding: 10;
+		}
+
+		.main tr:last-child {
+			vertical-align: top;
+			padding-top: 20px;
+			text-align: justify;
+			width: 33%;
+		}
+
+		.contain {
+			width: 90%;
+			margin-left: 5%;
+			font-size: 25px;
+			text-align: justify;
+		}
+
+		.type {
+			background-color: black;
+			color: white;
+			font-size: 20px;
+			font-weight: bold;
+			width: fit-content;
+			text-align: left;
+		}
+	</style>
+{% endblock %}
+
+{% if a %}
+	{% block back %}
+		<td align="center">
+			<a href="/user">
+				<div class="container">
+					<img src="{% static 'images\back.png' %}">
+					Back
+				</div>
+			</a>
+		</td>
+	{% endblock %}
+{% endif %}
+
+{% block content %}
+	<table class="main">
+		<tr>
+			<td>
+				{% if a %}
+				<form action="/user/lablist" method="POST">
+				{% else %}
+				<form action="/laboratory/" method="POST">
+				{% endif %}
+					{% csrf_token %}
+					{% for l in lab %}
+					{% if l.id == i.id %}
+					<font style="font-size: 20px; font-weight:bold; padding:10">{{ l.Name }}</font>
+					{% else %}
+					<button class="type" type="submit" name="btn" value="{{l.id}}"> {{ l.Name }} </button>
+					{% endif %}
+					{% endfor %}
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="contain">
+					{{ i.Description }}<br><br>
+					<b>Fees : </b>
+					Rs.{{ i.Fees }}
+				</div>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	<style>
+		/* Make the image responsive */
+		.contain img {
+			height: 250px;
+		}
+
+		.edit {
+			width: 90%;
+			height: 50%;
+			padding: 10px;
+			border-spacing: 0 15px;
+		}
+
+		.edit tr {
+			background-color: white;
+		}
+
+		.desc {
+			width: 60%;
+			font-size: 20px;
+		}
+
+		/* Set a style for the submit button */
+		.registerbtn {
+			background-color: black;
+			color: white;
+			padding: 16px 20px;
+			margin: 8px 0;
+			border: none;
+			cursor: pointer;
+			width: 50%;
+			font-size: 20;
+		}
+
+		.registerbtn:hover {
+			opacity: 1;
+		}
+
+		/* Add a blue text color to links */
+		a {
+			color: white;
+		}
+	</style>
+{% endblock %}
+
+{% if a %}
+	{% block back %}
+		<td align="center">
+			<a href="/user">
+				<div class="container">
+					<img src="{% static 'images\back.png' %}">
+					Back
+				</div>
+			</a>
+		</td>
+	{% endblock %}
+{% endif %}
+
+{% block content %}
+	<h1>
+		<p align="center" style="font-size: 35px;">
+			Patient Details
+		</p>
+	</h1>
+	<hr align="center" style="border: 1px solid black; width: 90%">
+	{% if pos == 'doctor' and a.patient_set.count == 0 %}
+	<div style="background-color: rgb(238, 186, 186); border-color: red; border-style: solid; width: 90%;; margin-left:5%">
+		<p style="color:red; margin-left:20px; font-size: 25px">
+			<strong>You currently have no patients to view.</strong>
+		</p>
+	</div>
+	<br>
+	{% else %}
+	<table class="edit" align="center">
+		{% for p in pat %}
+		<tr>
+			<td align="center">
+				<div class="contain">
+					<img src="{{ p.Image.url }}" alt="patient">
+				</div>
+			</td>
+			<td class="desc">
+				<br>
+				<b style="font-size: 30px;">
+					{{ p.Name }}
+				</b>
+				<br>
+				<br>
+				<b>
+					Dr. {{ p.DID.Name }}
+				</b>
+				<br>
+				<i>
+					Department of {{ p.DID.DID.Name }}
+				</i>
+				<br>
+				<br>
+				<table width="100%">
+					<th align="left" style="font-size: 20px;">
+						<b>
+							Date of Joining : {{ p.DOJ }}
+						</b>
+					</th>
+					<tr>
+						<td width="50%" style="font-size:20px">
+							<p style="font-size:20px">
+								<div class="container">
+									<img src="{% static 'images\doc_address.png' %}">
+									{{ p.Address }}
+									<br>
+									<img src="{% static 'images\doc_call.png' %}">
+									+ 91 {{ p.Contact }}
+									<br>
+									<img src="{% static 'images\doc_email.png' %}">
+									{{ p.Email }}
+								</div>
+							</p>
+						</td>
+						<td style="font-size: 20px;">
+							<div class="container">
+								<img src="{% static 'images\dob.png' %}">
+								{{ p.DOB }}<br>
+								<img src="{% static 'images\sex.png' %}">
+								{{ p.Sex }}<br>
+								<br>
+								Room Type : {{ p.BID.RID.Name }}<br>
+								Bed No. : {{ p.BID }}
+							</div>
+						</td>
+					</tr>
+				</table>
+				<form action="patientlist/bill" method="POST">
+					{% csrf_token %}
+					<p align="center">
+						<button type="submit" class="registerbtn" name="btn" value="{{p.id}}">
+							{% if pos == 'admin' %}
+							Generate Bill
+							{% elif pos == 'doctor' %}
+							Diagnostic Details
+							{% endif %}
+						</button>
+					</p>
+				</form>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+{% endblock %}

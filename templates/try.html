@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	<style>
+		.desc {
+			margin-left: 20px;
+		}
+
+		.edit {
+			width: 90%;
+			height: 50%;
+			padding: 10;
+			border-spacing: 0 15px;
+		}
+
+		.edit tr {
+			padding: 10px;
+			background-color: white;
+		}
+
+		.edit {
+			width: 60%;
+			font-size: 20px;
+		}
+	</style>
+{% endblock %}
+
+{% if a %}
+	{% block back %}
+		<td align="center">
+			<a href="/user">
+				<div class="container">
+					<img src="{% static 'images\back.png' %}">
+					Back
+				</div>
+			</a>
+		</td>
+	{% endblock %}
+{% endif %}
+
+
+{% block content %}
+	<h1>
+		<p align="center" style="font-size: 35px;">
+			Laboratory Details
+		</p>
+	</h1>
+	<hr align="center" style="border: 1px solid black; width: 80%">
+	<table class="edit" align="center">
+		{% for l in lab %}
+			<tr>
+				<td>
+					<div class="desc">
+						<b style="font-size: 30px;">
+							{{ l.Name }}
+						</b>
+						<p>
+							{{ l.Description }}
+						</p>
+						<p>
+							<b style="font-size: 25px;">Fees: Rs. {{ l.Fees }}</b>
+						</p>
+					</div>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}

@@ -1,0 +1,204 @@
+{% load static %}
+<html>
+    <head>
+        <style>
+            body {
+				background-color: #E6E6FA;
+				margin: 0%;
+            }
+            
+            .text {
+                background-color: black;
+                width: 100%;
+                height: 25%;
+				color: white;
+            }
+
+            .text img {
+				height:25%;
+				margin-left: 20px;
+            }
+
+            .hms {
+                color: white;
+                font-size: 55px;
+                font-family: "times new roman";
+				font-weight: bold;
+				margin-left: 50px;
+            }
+
+            .greet {
+                font-family: "times new roman";
+				color: white;
+				font-size: 20px;
+				margin-right: 30px;
+			}
+
+			.headicon {
+				width: 100%;
+				color: white;
+				font-family: "times new roman";
+				color: white;
+				font-size: 25px;
+				font-weight: bold;
+			}
+
+			.headicon td {
+				width: 33.3%;
+				vertical-align: top;
+			}
+
+			a {
+				text-decoration: none;
+				color: white;
+			}
+
+            footer {
+				width: 100%;
+				height: 50%;
+				background-color: black;
+				color: white;
+			}
+
+			.foot {
+				width: 98%;
+				color: white;
+				margin-left: 10px;
+            }
+
+			.foot td:last-child {
+				width: 25%;
+			}
+
+			.container img {
+				height: 35px;
+				width: 35px;
+			}
+
+			.footicon img {
+				height: 20px;
+				width: 20px;
+			}
+
+			.container1 img {
+				height: 80px;
+			}
+
+        </style>
+        {% block style %}
+		{% endblock %}
+    </head>
+    <body>
+        <table class="text">
+            <tr>
+                <td rowspan="2" width="10%">
+                    <img src="{% static 'images\icon.png' %}">
+                </td>
+                <td>
+                    <p align="left" class="hms">HOSPITAL MANAGEMENT SYSTEM</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;">
+                    <p align="right" class="greet">
+						{% block greet %}
+						{% if a %}
+							Hello, {{ a.Name }}.
+						{% else %}
+						{% endif %}
+						{% endblock %}
+					</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+					{% block headericon %}
+				{% if a %}
+				<table align="center" class="headicon">
+					<tr>
+						{% block back %}
+						{% endblock %}
+						<td align="center">
+							<a href="/user/profile">
+								<div class="container">
+									<img src="{% static 'images\profile.png' %}">
+									Profile
+								</div>							
+							</a>
+						</td>
+						<td align="center">
+							<a href="/">
+								<div class="container">
+									<img src="{% static 'images\logout.png' %}">
+									Logout
+								</div>
+							</a>
+						</td>
+					</tr>
+				</table>
+				{% else %}
+				<table align="center" class="headicon">
+					<tr>
+						<td align="center">
+							<a href="/">
+								<div class="container">
+									<img src="{% static 'images\home.png' %}">
+									Home
+								</div>
+							</a>
+						</td>
+				</table>
+				{% endif %}
+			{% endblock %}
+                </td>
+            </tr>
+        </table>
+        {% block content %}
+		{% endblock %}
+		<footer>
+			
+			<table align="center" class="foot">
+				<th>
+					<p align="left" style="font-size:45px; margin-left:10px; margin-top:20px">
+						<strong>
+							Hospital Management System
+						</strong>
+					</p>
+				</th>
+				<tr>
+					<td align="left">
+						<p style="font-size:25px;">
+							Some text about who we are and what we do.<br>
+							Hospital, an institution that is built, staffed, and equipped for the diagnosis of disease; for
+							the treatment,<br>
+							both medical and surgical, of the sick and the injured; and for their housing during this
+							process.<br>
+							The modern hospital also often serves as a centre for investigation and for teaching.
+						</p>
+					</td>
+					<td align="left">
+						<p style="font-size:25px">
+							<strong>
+								Contact Us
+							</strong>
+						</p>
+						<p style="font-size:20px">
+						<div class="footicon">
+							<img src="{% static 'images\call.png' %}">
+							+012-485247
+							<br>
+							<img src="{% static 'images\email.png' %}">
+							ab@example.com
+						</div>
+						</p>
+						<p>
+						<div class="container1">
+							<img src="{% static 'images\social.png' %}">
+						</div>
+						</p>
+					</td>
+				</tr>
+			</table>
+		</footer>
+    </body>
+</html>

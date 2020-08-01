@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	<style>
+		/* Make the image responsive */
+		.contain img {
+			height: 250px;
+		}
+
+		.edit {
+			width: 80%;
+			height: 50%;
+			padding: 10px;
+			border-spacing: 0 15px;
+		}
+
+		.edit tr {
+			background-color: white;
+		}
+
+		.desc {
+			width: 60%;
+			font-size: 25px;
+		}
+	</style>
+{% endblock %}
+
+{% block headericon %}
+	<table align="center" class="headicon">
+		<tr>
+			<td align="center">
+				<a href="/user">
+					<div class="container">
+						<img src="{% static 'images\back.png' %}">
+						Back
+					</div>
+				</a>
+			</td>
+			<td align="center">
+				<a href="/">
+					<div class="container">
+						<img src="{% static 'images\login.png' %}">
+						Logout
+					</div>
+				</a>
+			</td>
+	</table>
+{% endblock %}
+
+{% block content %}
+	<h1>
+		<p align="center" style="font-size: 35px;">
+			My Profile
+		</p>
+	</h1>
+	<hr align="center" style="border: 1px solid black; width: 90%">
+	<table class="edit" align="center">
+		<tr>
+			<td align="center">
+				<div class="contain">
+					<img src="{{ a.Image.url }}" alt="doc">
+				</div>
+			</td>
+			<td class="desc">
+				<b style="font-size: 35px;">
+					{{ a.Name }}
+				</b>
+				<br>
+				<p>
+					<div class="container">
+						<img src="{% static 'images\dob.png' %}">
+						{{ a.DOB }}
+						<br>
+						<img src="{% static 'images\sex.png' %}">
+						{{ a.Sex }}
+						<br>
+						<img src="{% static 'images\doc_address.png' %}">
+						{{ a.Address }}
+						<br>
+						<img src="{% static 'images\doc_call.png' %}">
+						+ 91 {{ a.Contact }}
+						<br>
+						<img src="{% static 'images\doc_email.png' %}">
+						{{ a.Email }}
+					</div>
+				</p>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

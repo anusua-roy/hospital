@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	<style>
+		.main {
+			width: 100%;
+			padding: 10;
+		}
+
+		.main td:first-child {
+			width: 30%;
+		}
+
+		.main td:last-child {
+			vertical-align: top;
+			padding-top: 30px;
+		}
+
+		.about {
+			width: 90%;
+			margin-left: 5%;
+			font-size: 25px;
+		}
+
+		.about p {
+			text-align: justify;
+		}
+
+		.type {
+			background-color: black;
+			color: white;
+			font-size: 30px;
+			font-weight: bold;
+			width: 100%;
+			padding: 10;
+			text-align: left;
+		}
+
+		.edit {
+			width: 90%;
+			height: 50%;
+			padding: 10px;
+			border-spacing: 0 15px;
+		}
+	
+		.edit tr {
+			background-color: white;
+		}
+	
+		.edit td:last-child {
+			width: 60%;
+			font-size: 20px;
+		}
+	
+		.contain {
+			font-size: 20px;
+		}
+
+		.contain img {
+			height: 25px;
+		}
+	</style>
+{% endblock %}
+
+{% if a %}
+	{% block back %}
+		<td align="center">
+			<a href="/user">
+				<div class="container">
+					<img src="{% static 'images\back.png' %}">
+					Back
+				</div>
+			</a>
+		</td>
+	{% endblock %}
+{% endif %}
+
+{% block content %}
+	<table class="main">
+		<tr>
+			<td>
+				{% if a %}
+				<form action="/user/doclist" method="POST">
+				{% else %}
+				<form action="/doctor/" method="POST">
+				{% endif %}
+					{% csrf_token %}
+					{% for d in dept %}
+					{% if d.id == i.id %}
+					<p style="font-size: 30px; font-weight:bold; padding:10">{{ d.Name }}</p>
+					{% else %}
+					<button class="type" type="submit" name="btn" value="{{d.id}}"> {{ d.Name }} </button> <br>
+					{% endif %}
+					{% endfor %}
+				</form>
+			</td>
+			<td>
+				<div class="about">
+					<h1>Department of {{ i.Name }} </h1>
+					<p>{{ i.Description }}</p>
+					<table class="edit" align="center">
+						{% for d in i.doctor_set.all %}
+						<tr>
+							<td align="center">
+								<div class="docimg">
+									<img src="{{ d.Image.url }}" alt="doc">
+								</div>
+							</td>
+							<td>
+								<b style="font-size: 25px;">
+									Dr. {{ d.Name }}
+								</b>
+								<br>
+								<i style="font-size: 20px;">
+									Department of {{ d.DID.Name }}
+								</i>
+								<br>
+								<b style="font-size: 20px;">
+									Fees: Rs. {{ d.Fees }}
+								</b>
+								<br>
+								<br>
+								<p>
+								<div class="contain">
+									<img src="{% static 'images\doc_address.png' %}">
+									{{ d.Address}}
+									<br>
+									<img src="{% static 'images\doc_call.png' %}">
+									+ 91 - {{ d.Contact }}
+									<br>
+									<img src="{% static 'images\doc_email.png' %}">
+									{{ d.Email }}
+								</div>
+								</p>
+							</td>
+						</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

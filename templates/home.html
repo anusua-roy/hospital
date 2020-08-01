@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+    .main {
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .main td {
+        width: 50%;
+        height: 50%;
+        padding: 15px;
+    }
+
+    .btn {
+        background-color: black;
+        width: 90%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .btn1 {
+        background-color: black;
+        width: 50%;
+        height: 100%;
+        cursor: pointer;
+    }    
+
+    .desc {
+        width: 100%;
+        color: white;
+        font-size: 35px;
+		font-weight: bold;
+        font-family: 'bookman old style';
+    }
+
+    .desc td {
+        padding: 25px;
+    }
+
+    .desc td:first-child {
+        text-align: left;
+        vertical-align: bottom;
+    }
+
+    .desc td:last-child {
+        text-align: right;
+        vertical-align: top;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<table class="main">
+    <tr>
+        <td>
+            <a href="user/roomlist">
+                <button class="btn">
+                    <table class="desc" align="center">
+                        <tr>
+                            <td>
+                                Rooms
+                            </td>
+                            <td>
+                                <img src="{% static 'images\room.png' %}" height=100px>
+                            </td>
+                        </tr>
+                    </table>
+                </button>
+            </a>
+        </td>
+        <td>
+            <a href="user/doclist">
+                <button  class="btn">
+                    <table class="desc" align="center">
+                        <tr>
+                            <td>
+                                Doctors
+                            </td>
+                            <td>
+                                <img src="{% static 'images\doctor.png' %}" height=100px>
+                            </td>
+                        </tr>
+                    </table>
+                </button>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {% if pos == 'patient' %}
+            <a href="user/patientlist/bill">
+            {% else %}
+            <a href="user/patientlist">
+            {% endif %}
+                <button  class="btn">
+                    <table class="desc" align="center">
+                        <tr>
+                            <td>
+                                {% if pos == 'admin' %}
+                                All Patients
+                                {% elif pos == 'doctor' %}
+                                My Patients
+                                {% elif pos == 'patient' %}
+                                Bill Details
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if pos == 'patient' %}
+                                <img src="{% static 'images\bill.png' %}" height=100px>
+                                {% else %}
+                                <img src="{% static 'images\patient.png' %}" height=100px>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </button>
+            </a>
+        </td>
+        <td>
+            <a href="user/lablist">
+                <button  class="btn">
+                    <table class="desc" align="center">
+                        <tr>
+                            <td>
+                                Diagnostics
+                            </td>
+                            <td>
+                                <img src="{% static 'images\laboratory.png' %}" height=100px>
+                            </td>
+                        </tr>
+                    </table>
+                </button>
+            </a>
+        </td>
+    </tr>
+</table>
+{% endblock %}

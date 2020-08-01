@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	<style>
+		.main {
+			width: 100%;
+			padding: 10;
+		}
+
+		.main td:first-child {
+			width: 30%;
+		}
+
+		.main td:last-child {
+			vertical-align: top;
+			padding-top: 50px;
+		}
+
+		.contain {
+			width: 90%;
+			margin-left: 5%;
+			font-size: 25px;
+			text-align: justify;
+		}
+
+		.type {
+			background-color: black;
+			color: white;
+			font-size: 30px;
+			font-weight: bold;
+			width: 100%;
+			padding: 10;
+			text-align: left;
+		}
+	</style>
+{% endblock %}
+
+{% if a %}
+	{% block back %}
+		<td align="center">
+			<a href="/user">
+				<div class="container">
+					<img src="{% static 'images\back.png' %}">
+					Back
+				</div>
+			</a>
+		</td>
+	{% endblock %}
+{% endif %}
+
+{% block content %}
+	<table class="main">
+		<tr>
+			<td>
+				{% if a %}
+				<form action="/user/roomlist" method="POST">
+				{% else %}
+				<form action="/room/" method="POST">
+				{% endif %}
+					{% csrf_token %}
+					{% for r in room %}
+					{% if r.id == i.id %}
+					<p style="font-size: 30px; font-weight:bold; padding:10">{{ r.Name }}</p>
+					{% else %}
+					<button class="type" type="submit" name="btn" value="{{r.id}}"> {{ r.Name }} </button> <br>
+					{% endif %}
+					{% endfor %}
+				</form>
+			</td>
+			<td>
+				<div class="contain">
+					<img height=250px src="{{ i.Image.url }}" alt="room"><br><br>
+					{{ i.Description }}<br><br>
+					<b>Fees : </b>
+					Rs.{{ i.Fees }}
+				</div>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

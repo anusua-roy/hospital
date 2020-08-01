@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	<style>
+		.subhead {
+			font-size: 20px;
+			width: 90%;
+			margin-left: 5%;
+		}
+	
+		.subhead hr {
+			border: 1px solid black;
+		}
+
+		/* Make the image responsive */
+		.contain img {
+			height: 250px;
+		}
+
+		.edit {
+			width: 80%;
+			height: 50%;
+			padding: 10px;
+			border-spacing: 0 15px;
+			border-spacing: 0 15px;
+			background-color: white;
+		}
+
+		.hosp {
+			width: 80%;
+			height: 50%;
+			padding: 10px;
+			border-spacing: 0 15px;
+			background-color: white;
+		}
+
+		.hosp td {
+			width: 50%;
+			font-size: 20px;
+		}
+
+		.report {
+			width: 80%;
+			height: 30%;
+			padding: 10px;
+			border-spacing: 0 15px;
+			background-color: white;
+			border-collapse: collapse;
+		}
+
+		.report tr {
+			border-bottom: 1px solid black;
+		}
+
+		.report tr:last-child {
+			border-bottom: none;
+		}
+
+		.report td {
+			width: 33.3%;
+			font-size: 20px;
+		}
+
+		.desc {
+			width: 60%;
+			font-size: 20px;
+		}
+
+		/* Set a style for the submit button */
+		.registerbtn {
+			background-color: black;
+			color: white;
+			padding: 16px 20px;
+			margin: 8px 0;
+			border: none;
+			cursor: pointer;
+			width: 50%;
+			font-size: 20;
+		}
+
+		.registerbtn:hover {
+			opacity: 1;
+		}
+
+		/* Add a blue text color to links */
+		a {
+			color: white;
+		}
+	</style>
+{% endblock %}
+
+{% if user %}
+	{% block back %}
+		<td align="center">
+			{% if pos == 'patient' %}
+			<a href="/user">
+			{% else %}
+			<a href="/user/patientlist">
+			{% endif %}
+				<div class="container">
+					<img src="{% static 'images\back.png' %}">
+					Back
+				</div>
+			</a>
+		</td>
+	{% endblock %}
+{% endif %}
+
+{% block content %}
+<div class="subhead">
+    <p style="font-size: 35px; font-weight: bold">
+		Patient Details
+	</p>
+	<hr>
+</div>
+	<table class="edit" align="center">
+		<tr>
+			<td align="center">
+				<div class="contain">
+					<img src="{{ p.Image.url }}" alt="doc">
+				</div>
+			</td>
+			<td class="desc">
+				<b style="font-size: 30px;">
+					{{ p.Name }}
+				</b>
+				<br>
+				<br>
+				<b>
+					Dr. {{ p.DID.Name }}
+				</b>
+				<br>
+				<i>
+					Department of {{ p.DID.DID.Name }}
+				</i>
+				<br>
+				<br>
+				<table width="100%">
+					<th align="left" style="font-size: 20px;">
+						<b>
+							Date of Joining : {{ p.DOJ }}
+						</b>
+					</th>
+					<tr>
+						<td width="50%" style="font-size: 20px;">
+							<p style="font-size:20px">
+								<div class="container">
+									<img src="{% static 'images\doc_call.png' %}">
+									+ 91 {{ p.Contact }}
+									<br>
+									<img src="{% static 'images\doc_email.png' %}">
+									{{ p.Email }}
+								</div>
+							</p>
+						</td>
+						<td style="font-size: 20px;">
+							Sex : {{ p.Sex }}<br>
+							Age : {{ p.Age }}<br>
+							Room Type : {{ p.BID.RID.Name }}<br>
+							Bed No. : {{ p.BID }}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	{% if pos != 'doctor' %}
+	<div class="subhead">
+		<p style="font-size: 35px; font-weight: bold">
+			Hospital Details
+		</p>
+		<hr>
+	</div>
+	<table class="hosp" align="center">
+		<tr>
+			<td align="right"><b>No. of days spend : </b></td>
+			<td align="left">{{ days }} days</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Room Rent (per day) : </b></td>
+			<td align="left">Rs. {{ p.BID.RID.Fees }}</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Doctor Fees (per day) : </b></td>
+			<td align="left">Rs. {{ p.DID.Fees }}</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Hospital Charges (per day) : </b></td>
+			<td align="left">Rs. 200</td>
+		</tr>	 	 
+	</table>
+	{% endif %}
+	<div class="subhead">
+		<p style="font-size: 35px; font-weight: bold">
+			Diagnostics Details
+		</p>
+		<hr>
+	</div>
+	<table class="report" align="center">
+		<tr>
+			<th align="center">REPORT DATE</th>
+			<th align="center">TEST NAME</th>
+			{% if pos != 'doctor' %}
+			<th align="center">REPORT FEES</th>
+			{% endif %}
+		</tr>
+		{% for report in p.report_set.all %}
+		<tr>
+			<td align="center">{{ report.Date }}</td>
+			<td align="center">{{ report.LID.Name }}</td>
+			{% if pos != 'doctor' %}
+			<td align="center"> Rs. {{ report.LID.Fees }}</td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</table>
+	{% if pos != 'doctor' %}
+	<table class="report"  align="center" style="height:10%">
+		<tr>
+			<td align="center"><b>Total Report Charges : Rs {{ trp }}</b></td>
+		</tr>
+	</table>
+	<div class="subhead">
+		<p style="font-size: 35px; font-weight: bold">
+			Total Charges
+		</p>
+		<hr>
+	</div>
+	<table class="hosp" align="center">
+		<tr>
+			<td align="right"><b>Hospital Charges : </b></td>
+			<td align="left">Rs. {{ hos }}</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Room Charges : </b></td>
+			<td align="left">Rs. {{ room }}</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Doctor Charges : </b></td>
+			<td align="left">Rs. {{ doc }}</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Report Charges : </b></td>
+			<td align="left">Rs. {{ trp }}</td>
+		</tr>
+		<tr>
+			<td align="right"><b>Total Bill : </b></td>
+			<td align="left">Rs. {{ total }}</td>
+		</tr>		 	 
+	</table>
+	{% endif %}
+	<br>
+{% endblock %}

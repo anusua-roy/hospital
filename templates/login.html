@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	<style>
+        .desc {
+            width: 90%;
+            margin-top: 20px;
+            margin-left: 5%;
+            font-size: 40px;
+            font-weight: bold;
+            padding: 10px;
+        }
+    
+        .desc hr {
+            border: 1px solid black;
+        }
+
+        .main {
+            width: 80%;
+            margin-top: 10px;
+            margin-left: 10%;
+            background-color: white;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            margin-left: 5%;
+        }
+    
+        .gender {
+            width: 20%;
+        }
+
+        .registerbtn {
+            background-color: black;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 335px;
+            font-size: 20;
+        }
+    
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+	</style>
+{% endblock %}
+
+{% block headericon %}
+	<table align="center" class="headicon">
+		<tr>
+			<td align="center">
+				<a href="room">
+					<div class="container">
+                        <img src="{% static 'images\room.png' %}">
+                        Room
+                    </div>
+				</a>
+			</td>
+			<td align="center" >
+				<a href="doctor">
+					<div class="container">
+                        <img src="{% static 'images\doctor.png' %}">
+                        Doctor
+                    </div>
+				</a>
+			</td>
+			<td align="center">
+				<a href="laboratory">
+					<div class="container">
+                        <img src="{% static 'images\laboratory.png' %}">
+                        Diagnostics
+                    </div>
+				</a>
+			</td>
+		</tr>
+	</table>
+{% endblock %}
+
+{% block content %}
+	{% for m in messages %}
+        <br>
+		<div style="background-color: rgb(238, 186, 186); border-color: red; border-style: solid">
+			<p style="color:red; margin-left:20px">
+				<strong>{{m}}</strong>
+			</p>
+		</div>
+    {% endfor %}
+    <br>
+    <br>
+	<form action="user" method="post">
+		{% csrf_token %}
+		<div class="main">
+        <p>
+            Login as :
+            <font style="color: red;">*</font><br>
+            <input class="gender" type="radio" name="position" value="admin" checked>Admin
+            <input class="gender" type="radio" name="position" value="doctor">Doctor
+            <input class="gender" type="radio" name="position" value="patient">Patient
+        </p>
+        <p>
+            Username :
+            <font style="color: red;">*</font><br>
+            <input type="text" name="uname" placeholder="Enter Username" maxlength="10" required>
+        </p>
+        <p>
+            Password :
+            <font style="color: red;">*</font><br>
+            <input type="password" name="psw" placeholder="Enter Password" maxlength="10" required>
+        </p>
+    </div>
+    <p align="center">
+        <button type="submit" class="registerbtn">
+            Login
+        </button>
+    </p>
+	</form>
+{% endblock %}

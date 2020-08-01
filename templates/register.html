@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+    .desc {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    .desc hr {
+        border: 1px solid black;
+    }
+
+    .main {
+        width: 90%;
+        margin-left: 5%;
+        padding: 10;
+        border-spacing: 15px 0;
+    }
+
+    .main td {
+        width: 50%;
+        padding: 30;
+        background-color: white;
+    }
+
+    input, textarea {
+        width: 90%;
+        padding: 12px 20px;
+        margin: 8px 0;
+    }
+
+    .gender {
+        width: 15%;
+        padding: 12px 20px;
+        margin: 8px 0;
+    }
+
+    .photo {
+        padding: 12px 20px;
+        margin: 8px 0;
+    }
+
+    .contact {
+        width: 80%;
+        padding: 12px 20px;
+        margin: 8px 0;
+    }
+
+    .registerbtn {
+		background-color: black;
+		color: white;
+		padding: 16px 20px;
+		margin: 8px 0;
+		border: none;
+		cursor: pointer;
+		width: 335px;
+		font-size: 20;
+	}
+
+	.registerbtn:hover {
+		opacity: 1;
+	}
+
+	a {
+		color: white;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="desc">
+    <h1>
+        <p align="left" style="font-size: 35px;">
+            Enter details to Sign-up...
+        </p>
+    </h1>
+    <hr>
+</div>
+    {% for m in messages %}
+		<br>
+		<div style="background-color: rgb(238, 186, 186); border-color: red; border-style: solid">
+			<p style="color:red; margin-left:20px">
+				<strong>{{m}}</strong>
+			</p>
+		</div>
+	{% endfor %}
+<form action="/register/" method="POST">
+    {% csrf_token %}
+    <table class="main">
+        <tr>
+            <td>
+                <div class="container">
+                    <p>
+                        <img src="{% static 'images\doc_name.png' %}">
+                        <input type="text" name="name" placeholder="Enter Name" maxlength="50" required>
+                    </p>
+                    <p>
+                        <img src="{% static 'images\doc_address.png' %}">
+                        <textarea name="address" rows="4" placeholder="Enter Address" required></textarea>
+                    </p>
+                    <p>
+                        <img src="{% static 'images\username.png' %}">
+                        <input type="text" name="username" placeholder="Enter Username" maxlength="10" required>
+                    </p>
+                    <p>
+                        <img src="{% static 'images\pass1.png' %}">
+                        <input type="password" name="password1" placeholder="Enter Password" maxlength="10" required>
+                    </p>
+                    <p>
+                        <img src="{% static 'images\pass2.png' %}">
+                        <input class="photo" type="password" name="password2" placeholder="Confirm Password" maxlength="10" required>
+                    </p>
+                </div>
+            </td>
+            <td>
+                <div class="container">
+                    <p>
+                        <img src="{% static 'images\photo.png' %}">
+                        Upload Image:
+                        <input type="file" name="image" accept="image/*" required>
+                    </p>
+                    <p>
+                        <img src="{% static 'images\dob.png' %}">
+                        <input type="date" name="dob">
+                    </p>
+                    <p>
+                        <img src="{% static 'images\sex.png' %}">
+                        <input class="gender" type="radio" name="sex" value="Male" checked>Male
+                        <input class="gender" type="radio" name="sex" value="Female">Female
+                        <input class="gender" type="radio" name="sex" value="Other">Other
+                    </p>
+                    <p>
+                        <img src="{% static 'images\doc_call.png' %}">
+                        + 91
+                        <input class="contact" type="tel" name="contact" placeholder="Enter Contact No." maxlength="10" required>
+                    </p>
+                    <p>
+                        <img src="{% static 'images\doc_email.png' %}">
+                        <input type="email" name="email" placeholder="Enter E-mail" required>
+                    </p>
+                </div>
+                <p align="center">
+                    <button type="submit" class="registerbtn">
+                        Submit
+                    </button>
+                </p>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}
